@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and Conditions - Luxury Hotel Group</title>
+    <link rel="stylesheet" href="/css/terms.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1>Luxury Hotel Group</h1>
+            <div class="nav-links">
+                <a href="/home">Home</a>
+                <a href="/terms">Terms</a>
+                <a href="/contact">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>Terms and Conditions</h1>
+            
+            <section>
+                <h2>1. Booking and Reservations</h2>
+                <p>All reservations are subject to availability and confirmation. A valid credit card is required to secure your booking.</p>
+            </section>
+
+            <section>
+                <h2>2. Check-in and Check-out</h2>
+                <p>Check-in time is from 3:00 PM, and check-out time is until 11:00 AM. Early check-in and late check-out may be available upon request.</p>
+            </section>
+
+            <section>
+                <h2>3. Cancellation Policy</h2>
+                <p>Cancellations must be made at least 48 hours prior to arrival to avoid charges. Different rates may have different cancellation policies.</p>
+            </section>
+
+            <section>
+                <h2>4. Payment Terms</h2>
+                <p>We accept major credit cards. Full payment is required at check-out unless otherwise specified.</p>
+            </section>
+
+            <section>
+                <h2>5. Property Rules</h2>
+                <p>Guests are expected to maintain appropriate noise levels and respect other guests. Smoking is prohibited in all indoor areas.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Luxury Hotel Group. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript to load other documents using Node.js server
+        document.querySelectorAll('a[data-page]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch(this.getAttribute('data-page'))
+                    .then(response => response.text())
+                    .then(html => {
+                        document.open();
+                        document.write(html);
+                        document.close();
+                    })
+                    .catch(error => console.error('Error loading document:', error));
+            });
+        });
+    </script>
+</body>
+</html>

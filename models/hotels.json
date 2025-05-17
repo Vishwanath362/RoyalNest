@@ -1,0 +1,32 @@
+[
+  {
+    "name": "The Ritz Bali",
+    "description": "A luxurious beachside resort with stunning sunset views and all-inclusive amenities.",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpFgVqOYWe0BW6-F2QEVtHGFA64K6zR63atA&s",
+    "link": "TheRitzBali"
+  },
+  {
+    "name": "Mountain Escape Lodge",
+    "description": "Nestled in the mountains, this cozy lodge is perfect for a relaxing getaway.",
+    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/67/fe/28/anh-toan-c-nh-resort.jpg?w=900&h=500&s=1",
+    "link": "MountainEscape"
+  },
+  {
+    "name": "Urban Oasis Hotel",
+    "description": "Modern hotel in the heart of the city with rooftop pool and fine dining.",
+    "image": "https://amazingarchitecture.com/storage/files/1742/architecture-projects/the-grid-architects/urban-oasis/16-urban_oasis%20_gated_community_living_housing_the_grid_architects.jpg",
+    "link": "UrbanOasis"
+  },
+  {
+    "name": "Beachfront-Resort",
+    "description": "Experience ultimate relaxation at our beachfront resort",
+    "image": "https://select-rep.com/wp-content/uploads/Celes-Beachfront-Resort-Main-Pool.jpg",
+    "link": "Beachfront"
+  },
+  {
+    "name": "The Ritz London",
+    "description": "A legendary luxury hotel in Piccadilly, renowned for its timeless elegance and exceptional service.",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXq0pWe4NdaPj85NBG2yAW3gQ71bp4IgPg6g&s",
+    "link": "TheRitzLondon"
+  }
+]

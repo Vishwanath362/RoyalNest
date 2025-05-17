@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | RoyalNest Hotel Group</title>
+    <link rel="stylesheet" href="/css/AboutUs.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="/images/image.png" alt="Luxury Stays Hotel Group Logo" class="logo">
+            <h1>About RoyalNest Hotel Group</h1>
+        </header>
+        
+        <section class="story">
+            <h2>Our Story</h2>
+            <div class="story-content">
+                <p>
+                    Founded in 1985, RoyalNest  Hotel Group has been at the forefront of hospitality excellence for over three decades. What started as a single boutique hotel in the heart of Paris has grown into a collection of 15 distinctive properties across Europe and North America.
+                </p>
+                <img src="/images/Hotel in Parris.jpg" alt="Luxury Stays Founding Hotel in Paris" class="featured-image">
+            </div>
+        </section>
+
+        <section class="values">
+            <h2>Our Values</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="/images/Service icon.webp" alt="Exceptional Service Icon" class="icon">
+                    <h3>Exceptional Service</h3>
+                    <p>We strive to exceed guest expectations with personalized, attentive service that anticipates and fulfills every need.</p>
+                </div>
+                <div class="card">
+                    <img src="/images/Sustainable Luxury.jpg" alt="Sustainable Luxury Icon" class="icon">
+                    <h3>Sustainable Luxury</h3>
+                    <p>We believe luxury and sustainability can coexist, implementing eco-friendly practices without compromising on quality.</p>
+                </div>
+                <div class="card">
+                    <img src="/images/Cultural Immersion.jpeg" alt="Cultural Immersion Icon" class="icon">
+                    <h3>Cultural Immersion</h3>
+                    <p>Each of our properties offers a unique gateway to local culture, allowing guests to truly experience their destination.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="properties">
+            <h2>Our Properties</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="/images/Paris Elegance.webp" alt="Paris Elegance Hotel Exterior">
+                    <h3>Paris Elegance</h3>
+                    <p>Experience luxury and comfort in the heart of the City of Light.</p>
+                </div>
+                <div class="card">
+                    <img src="/images/NYC Skyline.png" alt="New York Skyline Hotel Rooftop">
+                    <h3>New York Skyline</h3>
+                    <p>Unparalleled views and service in the city that never sleeps.</p>
+                </div>
+                <div class="card">
+                    <img src="/images/Tokyo zen.png" alt="Tokyo Zen Hotel Garden">
+                    <h3>Tokyo Zen</h3>
+                    <p>A tranquil oasis amidst the vibrant energy of Tokyo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="commitment">
+            <h2>Our Commitment</h2>
+            <div class="commitment-content">
+                <p>
+                    At Luxury Stays Hotel Group, we are committed to providing unforgettable experiences for our guests while maintaining the highest standards of sustainability and social responsibility. We continuously strive to innovate and elevate the art of hospitality.
+                </p>
+                <img src="/images/Sustainable Initiative.png" alt="Luxury Stays Sustainability Initiative" class="commitment-image">
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[data-page]').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    fetch(`/${page}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Page not found');
+                            return response.text();
+                        })
+                        .then(html => {
+                            document.open();
+                            document.write(html);
+                            document.close();
+                        })
+                        .catch(error => {
+                            console.error('Error loading document:', error);
+                            alert('Failed to load the page. Please try again later.');
+                        });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

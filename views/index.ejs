@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'RoyalNest - Luxury Stays' %></title>
+    <meta name="description" content="Stay at RoyalNest – luxury hotels and resorts across the world. Book now and enjoy your dream vacation.">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <header>
+        <nav class="container" aria-label="Main Navigation">
+            <div class="logo">
+                <a href="/">RoyalNest</a>
+            </div>
+            <ul class="nav-links">
+                <li class="gsap"><a href="#home" aria-label="Go to Home Section">Home</a></li>
+                <li class="gsap"><a href="#hotels" aria-label="Go to Hotels Section">Hotels</a></li>
+                <li class="gsap"><a href="/book" aria-label="Book your stay">Book Now</a></li>
+                <li class="gsap"><a href="/crismas" aria-label="View Christmas Specials">Xmas Special</a></li>
+                <li class="gsap"><a href="#about" aria-label="Learn about RoyalNest">About</a></li>
+                <li class="gsap"><a href="#contact" aria-label="Go to Contact Section">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Experience Luxury Like Never Before</h1>
+                <p>Discover our collection of world-class hotels and resorts</p>
+                <a href="/book" class="cta-button">Book Now</a>
+            </div>
+        </section>
+
+        <section id="hotels" class="featured-hotels">
+            <div class="container">
+                <h2>Our Featured Hotels</h2>
+                <div class="hotel-grid">
+                    <% hotels.forEach(hotel => { %>
+                        <div class="hotel-card">
+                            <img src="<%= hotel.image %>" alt="<%= hotel.name %>">
+                            <div class="hotel-card-content">
+                                <h3><%= hotel.name %></h3>
+                                <p><%= hotel.description %></p>
+                                <a href="<%= hotel.link %>" class="cta-button">Learn More</a>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-us">
+            <div class="container">
+                <h2>About RoyalNest</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="About RoyalNest Hotels">
+                    </div>
+                    <div class="about-text">
+                        <p>RoyalNest is a premier hotel group dedicated to providing unforgettable experiences for our guests. With a collection of handpicked properties in stunning locations around the world, we offer the perfect blend of luxury, comfort, and personalized service.</p>
+                        <p>Our commitment to excellence ensures that every stay with us is nothing short of extraordinary. From breathtaking views to world-class amenities, we strive to create memories that last a lifetime.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@RoyalNest.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#hotels">Hotels</a></li>
+                        <li><a href="/book">Book</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="#" aria-label="Visit Facebook page">Facebook</a></li>
+                        <li><a href="#" aria-label="Visit Instagram profile">Instagram</a></li>
+                        <li><a href="#" aria-label="Visit Twitter profile">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RoyalNest. All rights reserved.</p>
+                <ul>
+                    <li><a href="/terms" data-page="terms.html">Terms and Conditions</a></li>
+                    <li><a href="/privacy" data-page="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/gsap.js"></script>
+</body>
+</html>

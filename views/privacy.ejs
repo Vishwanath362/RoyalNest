@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Luxury Hotel Group</title>
+    <link rel="stylesheet" href="/css/privacy.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1>Luxury Hotel Group</h1>
+            <div class="nav-links">
+                <a href="/home">Home</a>
+                <a href="/terms">Terms</a>
+                <a href="/contact">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>Privacy Policy</h1>
+
+            <section>
+                <h2>1. Information We Collect</h2>
+                <p>We collect personal information including name, contact details, payment information, and stay preferences to provide our services.</p>
+            </section>
+
+            <section>
+                <h2>2. How We Use Your Information</h2>
+                <p>Your information is used to process reservations, provide customer service, and enhance your stay experience.</p>
+            </section>
+
+            <section>
+                <h2>3. Data Protection</h2>
+                <p>We implement security measures to protect your personal information from unauthorized access and disclosure.</p>
+            </section>
+
+            <section>
+                <h2>4. Cookie Policy</h2>
+                <p>Our website uses cookies to enhance user experience and analyze website traffic.</p>
+            </section>
+
+            <section>
+                <h2>5. Your Rights</h2>
+                <p>You have the right to access, correct, or delete your personal information. Contact us for any privacy-related concerns.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Luxury Hotel Group. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript to load other documents using Node.js server
+        document.querySelectorAll('a[data-page]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch(this.getAttribute('data-page'))
+                    .then(response => response.text())
+                    .then(html => {
+                        document.open();
+                        document.write(html);
+                        document.close();
+                    })
+                    .catch(error => console.error('Error loading document:', error));
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --light: #f3f4f6;
+            --dark: #1f2937;
+            --success: #10b981;
+            --danger: #ef4444;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f8fafc;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 5%;
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, 
+        .nav-links a.active {
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            font-size: 1.75rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+        }
+
+        .booking-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-info p {
+            font-size: 1.1rem;
+            color: var(--gray-500);
+            line-height: 1.8;
+        }
+
+        /* Booked Rooms Section Styles */
+        .booked-rooms {
+            margin-bottom: 3rem;
+        }
+
+        .bookings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .booking-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-header {
+            background: linear-gradient(90deg, var(--primary), #2563eb);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .booking-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .booking-status {
+            background-color: var(--success);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .booking-details {
+            padding: 1.5rem;
+        }
+
+        .booking-details p {
+            margin-bottom: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .booking-details p:last-child {
+            margin-bottom: 0;
+        }
+
+        .booking-details strong {
+            color: var(--dark);
+        }
+
+        .no-bookings {
+            text-align: center;
+            color: var(--gray-500);
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        .booking-form {
+            background-color: white;
+        }
+
+        #hotel-booking-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            background-color: var(--gray-100);
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+
+        .form-group:last-of-type {
+            grid-column: 1 / -1;
+        }
+
+        .btn-submit {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.3), 0 2px 4px -1px rgba(30, 58, 138, 0.06);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.3), 0 4px 6px -2px rgba(30, 58, 138, 0.06);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .info-image {
+                height: 250px;
+            }
+
+            #hotel-booking-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="brand">RoyalNest</div>
+        <div class="nav-links">
+            <a href="/home">Home</a>
+            <a href="/book" class="<%= activePage === 'book' ? 'active' : '' %>">Hotels</a>
+            <a href="/about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>Book Your Luxury Stay</h1>
+
+        <section class="booking-info">
+            <h2>Booking Information</h2>
+            <p>Experience unparalleled luxury at our handpicked hotels. Whether you're looking for a beachfront
+                paradise, an urban oasis, or a mountain escape, we have the perfect accommodation for you.</p>
+            <img src=<%= imgURL || "/images/JanuTokyo_Accommodation_CitySuitePage_HeroBanner.jpg" %> alt="City View Suite" class="info-image">
+        </section>
+        
+        <!-- New section to display booked rooms -->
+        <section class="booked-rooms">
+            <h2>Current Bookings</h2>
+            <% if (bookings && bookings.length > 0) { %>
+                <div class="bookings-grid">
+                    <% bookings.forEach(booking => { %>
+                        <div class="booking-card">
+                            <div class="booking-header">
+                                <h3><%= booking.hotelName %></h3>
+                                <span class="booking-status">Reserved</span>
+                            </div>
+                            <div class="booking-details">
+                                <p><strong>Room:</strong> <%= booking.roomType %></p>
+                                <p><strong>Check-in:</strong> <%= new Date(booking.checkInDate).toLocaleDateString() %></p>
+                                <p><strong>Check-out:</strong> <%= new Date(booking.checkOutDate).toLocaleDateString() %></p>
+                                <p><strong>Guests:</strong> <%= booking.guests %></p>
+                                <p><strong>Special Requests:</strong> <strong><%= booking.specialRequests %></strong></p>
+                               
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p class="no-bookings">No current bookings to display.</p>
+            <% } %>
+        </section>
+
+        <section class="booking-form">
+            <h2>Reserve Your Room</h2>
+
+            <!-- Updated form to post to /book -->
+            <form id="hotel-booking-form" action="/book" method="POST">
+                <div class="form-group">
+                    <label for="hotel">Select Hotel:</label>
+                    <select id="hotel" name="hotelName" required>
+                        <option value="">Choose a hotel</option>
+                        <% hotels.forEach(hotel => { %>
+                            <option value="<%= hotel.link %>" <%= selectedHotel === hotel.link ? 'selected' : '' %>>
+                                <%= hotel.name %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="check-in">Check-in Date:</label>
+                    <input type="date" id="check-in" name="checkInDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="check-out">Check-out Date:</label>
+                    <input type="date" id="check-out" name="checkOutDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guests">Number of Guests:</label>
+                    <input type="number" id="guests" name="guests" min="1" max="10" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="room-type">Room Type:</label>
+                    <select id="room-type" name="roomType" required>
+                        <option value="">Select room type</option>
+                        <% roomTypes.forEach(type => { %>
+                            <option value="<%= type.value %>"><%= type.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="special-requests">Special Requests:</label>
+                    <textarea id="special-requests" name="specialRequests" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Book Now</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <%= year %> Luxury Stays. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

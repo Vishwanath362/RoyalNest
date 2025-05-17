@@ -1,0 +1,215 @@
+:root {
+    --christmas-red: #D42426;
+    --christmas-green: #0F5738;
+    --gold: #FFD700;
+    --snow-white: #FFFFFF;
+    --pine-green: #2F5233;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #F8F9FA;
+    color: #333;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Snowflake Animation */
+.snowflakes {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.snowflake {
+    position: absolute;
+    color: var(--snow-white);
+    font-size: 1.5em;
+    animation: fall 10s linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100%) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Header Styles */
+header {
+    background: linear-gradient(135deg, var(--christmas-red), var(--christmas-green));
+    color: white;
+    text-align: center;
+    padding: 3rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    color: var(--gold);
+}
+
+/* Hotel Cards */
+.featured-hotels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hotel-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.hotel-card:hover {
+    transform: translateY(-5px);
+}
+
+.hotel-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.mountain {
+    background-image: url('https://images.unsplash.com/photo-1548777123-e216912df7d8');
+}
+
+.city {
+    background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb');
+}
+
+.beach {
+    background-image: url('https://images.unsplash.com/photo-1520483601560-389dff434fdf');
+}
+
+.hotel-card h2 {
+    padding: 1rem;
+    margin: 0;
+    color: var(--pine-green);
+}
+
+.price {
+    color: var(--christmas-red);
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 0 1rem;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+.description {
+    padding: 0 1rem;
+    color: #666;
+}
+
+.book-now {
+    background-color: var(--christmas-green);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    margin: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-now:hover {
+    background-color: var(--pine-green);
+}
+
+/* Special Offer Section */
+.special-offer {
+    background: linear-gradient(45deg, var(--christmas-red), var(--pine-green));
+    color: white;
+    padding: 3rem 1rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.offer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.offer-content h2 {
+    color: var(--gold);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.offer-content ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.offer-content li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 0.5rem;
+}
+
+.offer-deadline {
+    font-size: 1.25rem;
+    color: var(--gold);
+    margin-top: 2rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--pine-green);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .featured-hotels {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .offer-content ul {
+        grid-template-columns: 1fr;
+    }
+}

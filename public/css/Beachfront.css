@@ -1,0 +1,172 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Navbar styles */
+.navbar {
+    background: linear-gradient(to right, #003366, #004080);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #add8e6;
+}
+
+.nav-links a.active {
+    color: #add8e6;
+}
+
+/* Main content styles */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+/* Hotel card styles */
+.hotel-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.image-gallery {
+    width: 100%;
+}
+
+.main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.image-grid img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.image-grid img:hover {
+    transform: scale(1.05);
+}
+
+.hotel-info {
+    padding: 2rem;
+}
+
+h2 {
+    color: #003366;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.description {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.amenities {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.amenities li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.amenities li::before {
+    content: "•";
+    color: #003366;
+    position: absolute;
+    left: 0;
+}
+
+.cta {
+    display: flex;
+    gap: 1rem;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.learn-more {
+    background-color: #003366;
+    color: white;
+}
+
+.book-now {
+    background-color: #e63946;
+    color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+}
