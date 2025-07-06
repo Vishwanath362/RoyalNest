@@ -18,7 +18,13 @@ router.post('/login', async (req, res) => {
         const isMatch = await user.matchPassword(password);
         if (isMatch) {
             // Successful login
-            return res.redirect('/home');
+                     req.session.user = {
+                id: user._id,
+                username: user.username,
+                // add other info if needed
+            };
+
+            return res.redirect('/book');
         } else {
             // Incorrect password
             return res.status(401).send('Incorrect password');
@@ -31,28 +37,33 @@ router.post('/login', async (req, res) => {
 
 // POST register route
 router.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    try {
-        // Check if user already exists
-        const existingUser = await User.findOne({ username });
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ username });
 
-        if (existingUser) {
-            return res.status(401).json({ error: 'User already exists' });
-        }
-
-        // Create a new user
-        const newUser = new User({ username, password });
-
-        // Save the new user to MongoDB
-        await newUser.save();
-
-        // Redirect to home page after successful registration
-        return res.redirect('/home');
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send('Internal Server Error');
+    if (existingUser) {
+      return res.status(401).json({ error: 'User already exists' });
     }
+
+    // Create and save new user
+    const newUser = new User({ username, password });
+    await newUser.save();
+
+    //  Set session after saving
+    req.session.user = {
+      id: newUser._id,
+      username: newUser.username
+    };
+
+    // Redirect after successful registration
+    return res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
 });
+
 
 module.exports = router;

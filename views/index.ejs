@@ -1,25 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title || 'RoyalNest - Luxury Stays' %></title>
-    <meta name="description" content="Stay at RoyalNest – luxury hotels and resorts across the world. Book now and enjoy your dream vacation.">
-    <link rel="stylesheet" href="/css/index.css">
+    <title>RoyalNest - Luxury Stays Redefined</title>
+    <meta name="description"
+        content="Experience unparalleled luxury at RoyalNest – premium hotels and resorts worldwide. Book your dream getaway today.">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --deep-gold: #B8860B;
+            --royal-blue: #1e3a8a;
+            --midnight: #0f172a;
+            --pearl: #f8fafc;
+            --platinum: #e2e8f0;
+            --shadow-light: rgba(212, 175, 55, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--midnight);
+            overflow-x: hidden;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo a {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--midnight);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary-gold), var(--deep-gold));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.8), rgba(15, 23, 42, 0.6)),
+                url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(100%);
+            }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Featured Hotels Section */
+        .featured-hotels {
+            padding: 8rem 0;
+            background: var(--pearl);
+        }
+
+        .featured-hotels h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--midnight);
+            position: relative;
+        }
+
+        .featured-hotels h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--deep-gold));
+        }
+
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .hotel-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .hotel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .hotel-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .hotel-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .hotel-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .hotel-card-content {
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hotel-card-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--midnight);
+        }
+
+        .hotel-card-content p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .hotel-card .cta-button {
+            padding: 0.8rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* About Section */
+        .about-us {
+            padding: 8rem 0;
+            background: white;
+        }
+
+        .about-us h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--midnight);
+            position: relative;
+        }
+
+        .about-us h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--deep-gold));
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-text {
+            padding: 2rem;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #475569;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--midnight);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-gold);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .footer-bottom a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--primary-gold);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .hotel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
 </head>
+
 <body>
     <header>
-        <nav class="container" aria-label="Main Navigation">
+        <nav class="container">
             <div class="logo">
                 <a href="/">RoyalNest</a>
             </div>
             <ul class="nav-links">
-                <li class="gsap"><a href="#home" aria-label="Go to Home Section">Home</a></li>
-                <li class="gsap"><a href="#hotels" aria-label="Go to Hotels Section">Hotels</a></li>
-                <li class="gsap"><a href="/book" aria-label="Book your stay">Book Now</a></li>
-                <li class="gsap"><a href="/crismas" aria-label="View Christmas Specials">Xmas Special</a></li>
-                <li class="gsap"><a href="#about" aria-label="Learn about RoyalNest">About</a></li>
-                <li class="gsap"><a href="#contact" aria-label="Go to Contact Section">Contact</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#hotels">Hotels</a></li>
+                <li><a href="/book">Book Now</a></li>
+                <li><a href="/christmas">Xmas Special</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <% if (!user) { %>
+                    <li><a href="/login">Login</a></li>
+                    <% } else { %>
+                        <li><a href="/logout">Logout</a></li>
+                        <% } %>
+
             </ul>
         </nav>
     </header>
@@ -27,40 +524,54 @@
     <main>
         <section id="home" class="hero">
             <div class="hero-content">
-                <h1>Experience Luxury Like Never Before</h1>
-                <p>Discover our collection of world-class hotels and resorts</p>
-                <a href="/book" class="cta-button">Book Now</a>
+                <h1>Where Luxury Meets Perfection</h1>
+                <p>Discover extraordinary experiences at our world-class hotels and resorts</p>
+                <a href="/book" class="cta-button">Begin Your Journey</a>
             </div>
         </section>
 
         <section id="hotels" class="featured-hotels">
             <div class="container">
-                <h2>Our Featured Hotels</h2>
+                <h2>Exceptional Destinations</h2>
                 <div class="hotel-grid">
-                    <% hotels.forEach(hotel => { %>
-                        <div class="hotel-card">
+                    <% hotels.forEach(hotel=> { %>
+                        <div class="hotel-card fade-in">
                             <img src="<%= hotel.image %>" alt="<%= hotel.name %>">
                             <div class="hotel-card-content">
-                                <h3><%= hotel.name %></h3>
-                                <p><%= hotel.description %></p>
+                                <h3>
+                                    <%= hotel.name %>
+                                </h3>
+                                <p>
+                                    <%= hotel.description %>
+                                </p>
                                 <a href="<%= hotel.link %>" class="cta-button">Learn More</a>
                             </div>
                         </div>
-                    <% }); %>
+                        <% }) %>
                 </div>
             </div>
         </section>
 
+
         <section id="about" class="about-us">
             <div class="container">
-                <h2>About RoyalNest</h2>
+                <h2>The RoyalNest Experience</h2>
                 <div class="about-content">
                     <div class="about-image">
-                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="About RoyalNest Hotels">
+                        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Luxury hotel interior">
                     </div>
                     <div class="about-text">
-                        <p>RoyalNest is a premier hotel group dedicated to providing unforgettable experiences for our guests. With a collection of handpicked properties in stunning locations around the world, we offer the perfect blend of luxury, comfort, and personalized service.</p>
-                        <p>Our commitment to excellence ensures that every stay with us is nothing short of extraordinary. From breathtaking views to world-class amenities, we strive to create memories that last a lifetime.</p>
+                        <p>RoyalNest represents the pinnacle of luxury hospitality, where every moment is designed to
+                            exceed expectations. Our collection of premium properties spans breathtaking destinations
+                            worldwide, each offering a unique blend of sophisticated elegance and warm, personalized
+                            service.</p>
+                        <p>From intimate boutique hotels to expansive resort complexes, we curate experiences that
+                            create lasting memories. Our commitment to excellence is evident in every detail, from
+                            hand-selected amenities to our dedicated team of hospitality professionals who anticipate
+                            your every need.</p>
+                        <p>Join us in redefining luxury travel, where exceptional service meets unparalleled comfort in
+                            some of the world's most coveted destinations.</p>
                     </div>
                 </div>
             </div>
@@ -71,53 +582,96 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Contact Us</h3>
-                    <p>Email: info@RoyalNest.com</p>
-                    <p>Phone: +1 (555) 123-4567</p>
+                    <h3>Contact</h3>
+                    <p><i class='bx bx-envelope'></i> reservations@royalnest.com</p>
+                    <p><i class='bx bx-phone'></i> +1 (555) 123-4567</p>
+                    <p><i class='bx bx-map'></i> Global Luxury Network</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#hotels">Hotels</a></li>
-                        <li><a href="/book">Book</a></li>
-                        <li><a href="#about">About</a></li>
+                        <li><a href="/book">Reservations</a></li>
+                        <li><a href="#about">About Us</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h3>Follow Us</h3>
+                    <h3>Connect</h3>
                     <ul>
-                        <li><a href="#" aria-label="Visit Facebook page">Facebook</a></li>
-                        <li><a href="#" aria-label="Visit Instagram profile">Instagram</a></li>
-                        <li><a href="#" aria-label="Visit Twitter profile">Twitter</a></li>
+                        <li><a href="#"><i class='bx bxl-facebook'></i> Facebook</a></li>
+                        <li><a href="#"><i class='bx bxl-instagram'></i> Instagram</a></li>
+                        <li><a href="#"><i class='bx bxl-twitter'></i> Twitter</a></li>
+                        <li><a href="#"><i class='bx bxl-linkedin'></i> LinkedIn</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 RoyalNest. All rights reserved.</p>
+                <p>&copy; 2025 RoyalNest. Luxury Redefined.</p>
                 <ul>
-                    <li><a href="/terms" data-page="terms.html">Terms and Conditions</a></li>
-                    <li><a href="/privacy" data-page="privacy.html">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/careers">Careers</a></li>
                 </ul>
             </div>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for internal links
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
         });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
     </script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/js/gsap.js"></script>
 </body>
+
 </html>

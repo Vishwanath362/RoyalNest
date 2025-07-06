@@ -3,85 +3,264 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RoyalNest</title>
+  <title>RoyalNest - Login</title>
   <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Montserrat', sans-serif;
+    }
+
+    :root {
+      --primary-gold: #D4AF37;
+      --deep-gold: #B8860B;
+      --royal-blue: #1e3a8a;
+      --midnight: #0f172a;
+      --pearl: #f8fafc;
+      --platinum: #e2e8f0;
+      --shadow-light: rgba(212, 175, 55, 0.1);
+      --shadow-dark: rgba(0, 0, 0, 0.25);
     }
 
     body {
-      background-color: lavenderblush;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--royal-blue), var(--midnight)), 
+                  url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      height: 100vh;
+      min-height: 100vh;
+      color: var(--midnight);
+      position: relative;
+      overflow-x: hidden;
+      flex-direction: column; /* Fix stacking */
     }
 
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(15, 23, 42, 0.8));
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Floating elements */
+    .floating-element {
+      position: absolute;
+      opacity: 0.1;
+      color: var(--primary-gold);
+      font-size: 2rem;
+      animation: float 6s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    .floating-element:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floating-element:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; }
+    .floating-element:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 4s; }
+    .floating-element:nth-child(4) { bottom: 10%; right: 15%; animation-delay: 1s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    /* Main container for login/signup */
     .container {
-      background-color: #fff;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
       border-radius: 30px;
-      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
       position: relative;
       overflow: hidden;
-      width: 768px;
-      max-width: 100%;
-      min-height: 480px;
+      width: 900px;
+      max-width: 95%;
+      min-height: 550px;
+      z-index: 10;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      margin-top: 120px; /* Push below header */
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.05), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
     }
 
     .container form {
-      background-color: #fff;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      padding: 0 40px;
+      padding: 3rem 2.5rem;
       height: 100%;
       width: 100%;
     }
 
+    .container h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .social-icons {
+      margin: 1.5rem 0 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-icons a {
+      border: 2px solid var(--platinum);
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      color: var(--midnight);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-icons a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+
+    .social-icons a:hover::before {
+      left: 0;
+    }
+
+    .social-icons a:hover {
+      color: white;
+      border-color: var(--primary-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .form-group {
+      width: 100%;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .container label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--midnight);
+      font-size: 0.95rem;
+    }
+
     .container input {
-      background-color: #eee;
-      border: none;
-      margin: 8px 0;
-      padding: 10px 15px;
-      font-size: 13px;
-      border-radius: 8px;
+      background: rgba(248, 250, 252, 0.8);
+      border: 2px solid var(--platinum);
+      margin: 0;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      border-radius: 15px;
       width: 100%;
       outline: none;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .container input:focus {
+      border-color: var(--primary-gold);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+      transform: translateY(-2px);
     }
 
     .container button {
-      background-color: hsl(249, 95%, 63%);
-      color: #fff;
-      font-size: 12px;
-      padding: 10px 45px;
-      border: 1px solid transparent;
-      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+      color: white;
+      font-size: 1rem;
+      padding: 1.25rem 3rem;
+      border: none;
+      border-radius: 50px;
       font-weight: 600;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-top: 10px;
+      margin-top: 1rem;
       cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .container button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .container button:hover::before {
+      left: 100%;
+    }
+
+    .container button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
     }
 
     .container button.hidden {
-      background-color: transparent;
-      border-color: #fff;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    .container button.hidden:hover {
+      background: white;
+      color: var(--primary-gold);
     }
 
     .form-container {
       position: absolute;
       top: 0;
       height: 100%;
-      transition: all 0.6s ease-in-out;
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .sign-in {
@@ -105,10 +284,10 @@
       transform: translateX(100%);
       opacity: 1;
       z-index: 5;
-      animation: move 0.6s;
+      animation: slideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    @keyframes move {
+    @keyframes slideIn {
       0%, 49.99% {
         opacity: 0;
         z-index: 1;
@@ -119,21 +298,6 @@
       }
     }
 
-    .social-icons {
-      margin: 20px 0;
-    }
-
-    .social-icons a {
-      border: 1px solid #ccc;
-      border-radius: 20%;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 3px;
-      width: 40px;
-      height: 40px;
-    }
-
     .toggle-container {
       position: absolute;
       top: 0;
@@ -141,24 +305,25 @@
       width: 50%;
       height: 100%;
       overflow: hidden;
-      transition: all 0.6s ease-in-out;
-      border-radius: 20px;
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 0 30px 30px 0;
       z-index: 1000;
     }
 
     .container.active .toggle-container {
       transform: translateX(-100%);
+      border-radius: 30px 0 0 30px;
     }
 
     .toggle {
-      background-color: hsl(249, 95%, 63%);
+      background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
       height: 100%;
-      color: #fff;
+      color: white;
       position: relative;
       left: -100%;
       width: 200%;
       transform: translateX(0);
-      transition: all 0.6s ease-in-out;
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .container.active .toggle {
@@ -173,10 +338,25 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      padding: 0 30px;
+      padding: 0 2.5rem;
       text-align: center;
       top: 0;
-      transition: all 0.6s ease-in-out;
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .toggle-panel h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .toggle-panel p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      opacity: 0.9;
     }
 
     .toggle-left {
@@ -191,45 +371,239 @@
       right: 0;
       transform: translateX(0);
     }
+
+    .container.active .toggle-right {
+      transform: translateX(200%);
+    }
+
+    /* Brand logo in corner */
+    .brand-logo {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      z-index: 100;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    .brand-logo:hover {
+      opacity: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        width: 98%;
+        min-height: 500px;
+        flex-direction: column;
+        margin-top: 90px;
+      }
+
+      .form-container,
+      .toggle-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .sign-in,
+      .sign-up {
+        width: 100%;
+        position: relative;
+        opacity: 1;
+      }
+
+      .container.active .sign-in {
+        transform: none;
+        display: none;
+      }
+
+      .container.active .sign-up {
+        transform: none;
+        display: none;
+      }
+
+      .toggle-container {
+        left: 0;
+        border-radius: 0;
+        height: 150px;
+      }
+
+      .toggle {
+        left: 0;
+        width: 100%;
+      }
+
+      .toggle-panel {
+        width: 100%;
+        padding: 1rem;
+      }
+
+      .toggle-panel h1 {
+        font-size: 1.8rem;
+      }
+
+      .toggle-panel p {
+        font-size: 1rem;
+      }
+
+      .floating-element {
+        display: none;
+      }
+    }
+
+    /* Header styles - renamed .container to .nav-container to avoid conflicts */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo a {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-gold);
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--midnight);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: linear-gradient(90deg, var(--primary-gold), var(--deep-gold));
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-gold);
+    }
   </style>
 </head>
 
 <body>
+  <header>
+    <nav class="nav-container">
+      <div class="logo">
+        <a href="/">RoyalNest</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="#hotels">Hotels</a></li>
+        <li><a href="/book">Book Now</a></li>
+        <li><a href="/christmas">Xmas Special</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="/login">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Floating decorative elements -->
+  <div class="floating-element"><i class='bx bx-hotel'></i></div>
+  <div class="floating-element"><i class='bx bx-map'></i></div>
+  <div class="floating-element"><i class='bx bx-star'></i></div>
+  <div class="floating-element"><i class='bx bx-crown'></i></div>
+
+  <!-- Brand logo -->
+  <!-- <a href="/" class="brand-logo">RoyalNest</a> -->
 
   <div class="container" id="container">
     <!-- Sign In Form -->
-    <div class="form-container sign-in">
+    <div class="form-container sign-in" id ="log">
       <form action="/api/login" method="POST">
-        <h1 style="color: hsl(249, 95%, 63%)">Log In</h1>
+        <h1>Welcome Back</h1>
         <div class="social-icons">
           <a href="#" class="icons"><i class='bx bxl-google'></i></a>
           <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
           <a href="#" class="icons"><i class='bx bxl-github'></i></a>
           <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
         </div>
-        <label for="login-username">Username:</label>
-        <input type="text" id="login-username" name="username" required>
-        <label for="login-password">Password:</label>
-        <input type="password" id="login-password" name="password" required>
-        <button type="submit">Login</button>
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" required>
+        </div>
+        <button type="submit">Sign In</button>
       </form>
     </div>
 
     <!-- Sign Up Form -->
     <div class="form-container sign-up">
       <form action="/api/register" method="POST">
-        <h1 style="color: hsl(249, 95%, 63%)">Create Account</h1>
+        <h1>Join RoyalNest</h1>
         <div class="social-icons">
           <a href="#" class="icons"><i class='bx bxl-google'></i></a>
           <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
           <a href="#" class="icons"><i class='bx bxl-github'></i></a>
           <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
         </div>
-        <label for="signup-username">Username:</label>
-        <input type="text" id="signup-username" name="username" required>
-        <label for="signup-password">Password:</label>
-        <input type="password" id="signup-password" name="password" required>
-        <button type="submit">Sign Up</button>
+        <div class="form-group">
+          <label for="signup-username">Username</label>
+          <input type="text" id="signup-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" name="password" required>
+        </div>
+        <button type="submit">Create Account</button>
       </form>
     </div>
 
@@ -237,31 +611,46 @@
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">
-          <h1>Welcome To <br>RoyalNest</h1>
-          <p>Log in with ID & Password</p>
+          <h1>Welcome Back to<br>RoyalNest</h1>
+          <p>Experience luxury redefined. Sign in to access your exclusive member benefits and continue your journey with us.</p>
           <button class="hidden" id="login">Sign In</button>
         </div>
         <div class="toggle-panel toggle-right">
-          <h1>Hi User</h1>
-          <p>Join Our Community of trusted people</p>
-          <button class="hidden" id="register">Register</button>
+          <h1>Join Our Royal<br>Community</h1>
+          <p>Discover extraordinary experiences and become part of our prestigious family of luxury travelers.</p>
+          <button class="hidden" id="register">Create Account</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Toggle Functionality Script -->
   <script>
     const container = document.getElementById('container');
     const loginBtn = document.getElementById('login');
     const registerBtn = document.getElementById('register');
+    const log = document.getElementById('log')
+    registerBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+     log.style.setProperty("display", "none");
 
-    registerBtn.addEventListener('click', () => {
       container.classList.add('active');
     });
 
-    loginBtn.addEventListener('click', () => {
+    loginBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+       log.style.setProperty("display", "block");
       container.classList.remove('active');
+    });
+
+    // Add some interactive effects
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.style.transform = 'scale(1.02)';
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.style.transform = 'scale(1)';
+      });
     });
   </script>
 </body>

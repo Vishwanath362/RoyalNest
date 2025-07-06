@@ -8,8 +8,8 @@ const errorHandler = require('./middlewares/errorHandler');
 const { Logger } = require('./middlewares/logger');
 const hotels = require('./models/hotels.json');
 const Booking = require('./models/Booking'); // Booking model
-
-
+const {checkIfLoggedIn} = require('./middlewares/auth')
+const session = require('express-session');
 dotenv.config(); // Load .env variables
 
 const app = express();
@@ -23,17 +23,22 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session({
+    secret: 'blindhope32',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 // Routes
 app.use('/api', apiRoutes);
 
 // Pages
-app.get('/', (req, res) => {
-    res.render('login');
-});
+// app.get('/', (req, res) => {
+//     res.render('login');
+// });
 
-app.get('/home', (req, res) => {
-    res.render('index', { title: "RoyalNest", hotels });
+app.get('/', (req, res) => {
+    res.render('index', { title: "RoyalNest", hotels , user: req.session.user});
 });
 
 app.get('/register', (req, res) => {
@@ -44,7 +49,7 @@ app.get('/about', (req, res) => {
     res.render('AboutUs');
 });
 
-app.get('/crismas', (req, res) => {
+app.get('/christmas', (req, res) => {
     res.render('ChristmasOffer');
 });
 
@@ -57,23 +62,36 @@ app.get('/terms', (req, res) => {
 });
 
 app.get('/Beachfront', (req, res) => {
-    res.render('Beachfront');
+    res.render('Beachfront',{user: req.session.user});
 });
 
 app.get('/UrbanOasis', (req, res) => {
-    res.render('UrbanOasis');
+    res.render('UrbanOasis',{user: req.session.user});
 });
 
 app.get('/MountainEscape', (req, res) => {
-    res.render('MountainEscape');
+    res.render('MountainEscape',{user: req.session.user});
 });
 
 app.get('/TheRitzLondon', (req, res) => {
-    res.render('TheRitzLondon');
+    res.render('TheRitzLondon',{user: req.session.user});
 });
 
 app.get('/TheRitzBali', (req, res) => {
-    res.render('TheRitzBali');
+    res.render('TheRitzBali',{user: req.session.user});
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error("Logout Error:", err);
+      return res.status(500).send("Could not log out.");
+    }
+    res.redirect('/'); 
+  });
 });
 
 // Booking Page
@@ -84,7 +102,7 @@ const roomTypes = [
     { value: "deluxe", name: "Deluxe" }
 ];
 
-app.get('/book', async (req, res) => {
+app.get('/book',checkIfLoggedIn, async (req, res) => {
   const year = new Date().getFullYear();
   const selectedHotel = req.query.hotel;
   const matchedHotel = hotels.find(hotel => hotel.link === selectedHotel);
@@ -139,7 +157,7 @@ app.post('/book', async (req, res) => {
 
         await newBooking.save();
         console.log("✅ Booking saved:", newBooking);
-        res.redirect('/home');
+        res.redirect('/');
     } catch (error) {
         console.error("❌ Error saving booking:", error);
         res.status(500).send("Internal Server Error");
