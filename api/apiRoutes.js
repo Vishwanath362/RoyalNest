@@ -4,35 +4,36 @@ const User = require('../models/userModel');  // Import the User model
 
 // POST login route
 router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    try {
-        // Find user by username
-        const user = await User.findOne({ username });
+  try {
+    // Find user by username
+    const user = await User.findOne({ username });
 
-        if (!user) {
-            return res.status(401).send('User not found');
-        }
-
-        // Compare entered password with stored password
-        const isMatch = await user.matchPassword(password);
-        if (isMatch) {
-            // Successful login
-                     req.session.user = {
-                id: user._id,
-                username: user.username,
-                // add other info if needed
-            };
-
-            return res.redirect('/book');
-        } else {
-            // Incorrect password
-            return res.status(401).send('Incorrect password');
-        }
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send('Internal Server Error');
+    if (!user) {
+      return res.redirect('/login?error=nouser');
     }
+
+
+    // Compare entered password with stored password
+    const isMatch = await user.matchPassword(password);
+    if (isMatch) {
+      // Successful login
+      req.session.user = {
+        id: user._id,
+        username: user.username,
+        // add other info if needed
+      };
+
+      return res.redirect('/book');
+    } else {
+      // Incorrect password
+      return res.status(401).send('Incorrect password');
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
 });
 
 // POST register route

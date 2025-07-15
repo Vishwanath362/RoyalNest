@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mountain Escape - RoyalNest</title>
+    <title>The Ritz Bali - RoyalNest</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -114,7 +114,7 @@
         .hero {
             height: 60vh;
             background: linear-gradient(135deg, rgba(30, 58, 138, 0.8), rgba(15, 23, 42, 0.6)), 
-                        url('https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+                        url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -390,10 +390,62 @@
             gap: 1rem;
         }
 
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--midnight);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary-gold);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
             .nav-links {
-                display: none;
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem 0;
+                transition: right 0.3s ease;
+                z-index: 999;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.show {
+                right: 0;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                margin: 1rem 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem;
+                font-size: 1.1rem;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             }
 
             .hero {
@@ -449,15 +501,18 @@
             <div class="logo">
                 <a href="/">RoyalNest</a>
             </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/book">Hotels</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <% if (!user) { %>
-                    <li><a href="/login">Login</a></li>
+            <button class="hamburger" id="hamburgerBtn">
+                <i class='bx bx-menu'></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" onclick="closeMenu()">Home</a></li>
+                <li><a href="/book" onclick="closeMenu()">Hotels</a></li>
+                <li><a href="/about" onclick="closeMenu()">About</a></li>
+                <li><a href="/contact" onclick="closeMenu()">Contact</a></li>
+               <% if (!user) { %>
+                    <li><a href="/login" onclick="closeMenu()">Login</a></li>
                     <% } else { %>
-                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="/logout" onclick="closeMenu()">Logout</a></li>
                         <% } %>
             </ul>
         </nav>
@@ -465,8 +520,8 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Mountain Escape</h1>
-            <p>Discover serenity and adventure in our luxury mountain retreat</p>
+            <h1>Urban Oasis</h1>
+            <p>Discover serenity and luxury in the heart of the city</p>
         </div>
     </section>
 
@@ -475,29 +530,32 @@
             <div class="hotel-card fade-in">
                 <div class="hotel-content">
                     <div class="image-gallery">
-                        <img src="https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?w=800&auto=format" alt="Mountain Escape Main View" class="main-image">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Urban Oasis Main View - Modern Lobby" class="main-image">
+                        
                         <div class="image-grid">
-                            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&auto=format" alt="Mountain View Suite">
-                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&auto=format" alt="Luxury Cabin">
-                            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=400&auto=format" alt="Spa Area">
+                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Urban Oasis - City View Suite">
+                            
+                            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Urban Oasis - Spa and Wellness">
+                            
+                            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Urban Oasis - Rooftop Garden">
                         </div>
                     </div>
                     
                     <div class="hotel-info">
-                        <h2>Mountain Escape</h2>
-                        <p class="description">Unwind in nature at our secluded mountain resort. Experience tranquility and adventure in equal measure, surrounded by breathtaking alpine landscapes and world-class amenities.</p>
+                        <h2>Urban Oasis</h2>
+                        <p class="description">Find your tranquil retreat amidst the city's buzz at Urban Oasis. Our boutique hotel offers sophisticated comfort, personalized service, and a peaceful escape with all the vibrant energy of the metropolis at your doorstep.</p>
                         
                         <ul class="amenities">
-                            <li>Panoramic mountain views from every room</li>
-                            <li>Private hiking trails and nature walks</li>
-                            <li>Luxury spa treatments with alpine botanicals</li>
-                            <li>Farm-to-table dining with local ingredients</li>
-                            <li>Adventure sports facilities and equipment</li>
-                            <li>Cozy fireplaces and heated outdoor pools</li>
+                            <li>Soundproofed rooms for ultimate tranquility</li>
+                            <li>Rooftop lounge with panoramic city views</li>
+                            <li>State-of-the-art fitness center and spa</li>
+                            <li>Gourmet dining with locally sourced ingredients</li>
+                            <li>Concierge services for tailored city experiences</li>
+                            <li>Co-working spaces and high-speed Wi-Fi</li>
                         </ul>
                         
                         <div class="cta">
-                            <a href="/book?hotel=MountainEscape" class="book-now">Reserve Your Escape</a>
+                            <a href="/book?hotel=UrbanOasis" class="book-now">Book Your City Retreat</a>
                         </div>
                     </div>
                 </div>
@@ -578,6 +636,62 @@
                 mainImage.src = this.src;
                 this.src = tempSrc;
             });
+        });
+
+        // Hamburger menu functions
+        function toggleMenu() {
+            const navLinks = document.getElementById("navLinks");
+            const hamburger = document.getElementById('hamburgerBtn');
+            
+            if (navLinks && hamburger) {
+                navLinks.classList.toggle("show");
+                
+                const icon = hamburger.querySelector('i');
+                if (navLinks.classList.contains("show")) {
+                    icon.className = 'bx bx-x';
+                } else {
+                    icon.className = 'bx bx-menu';
+                }
+            }
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById("navLinks");
+            const hamburger = document.getElementById('hamburgerBtn');
+            
+            if (navLinks && hamburger) {
+                navLinks.classList.remove("show");
+                hamburger.querySelector('i').className = 'bx bx-menu';
+            }
+        }
+
+        // Initialize hamburger menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburgerBtn');
+            
+            if (hamburger) {
+                hamburger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById("navLinks");
+            const nav = document.querySelector('nav');
+            
+            if (nav && !nav.contains(event.target) && navLinks && navLinks.classList.contains("show")) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
         });
     </script>
 </body>

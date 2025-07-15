@@ -114,7 +114,7 @@
         .hero {
             height: 60vh;
             background: linear-gradient(135deg, rgba(30, 58, 138, 0.8), rgba(15, 23, 42, 0.6)), 
-                        url('https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+                        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -427,6 +427,52 @@
                 flex-direction: column;
                 text-align: center;
             }
+
+            /* Hamburger menu styles */
+            .hamburger {
+                display: block;
+                background: none;
+                border: none;
+                cursor: pointer;
+                z-index: 2000;
+            }
+
+            .hamburger i {
+                font-size: 1.5rem;
+                color: var(--midnight);
+            }
+
+            #navLinks {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                display: none;
+                flex-direction: column;
+                padding: 1rem 0;
+            }
+
+            #navLinks li {
+                text-align: center;
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--platinum);
+            }
+
+            #navLinks li:last-child {
+                border-bottom: none;
+            }
+
+            #navLinks a {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+
+            #navLinks.show {
+                display: flex;
+            }
         }
 
         /* Scroll animations */
@@ -449,16 +495,19 @@
             <div class="logo">
                 <a href="/">RoyalNest</a>
             </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/book">Hotels</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+            <button class="hamburger" id="hamburgerBtn">
+                <i class='bx bx-menu'></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" onclick="closeMenu()">Home</a></li>
+                <li><a href="/book" onclick="closeMenu()">Hotels</a></li>
+                <li><a href="/about" onclick="closeMenu()">About</a></li>
+                <li><a href="/contact" onclick="closeMenu()">Contact</a></li>
                 <% if (!user) { %>
-                    <li><a href="/login">Login</a></li>
-                    <% } else { %>
-                        <li><a href="/logout">Logout</a></li>
-                        <% } %>
+                    <li><a href="/login" onclick="closeMenu()">Login</a></li>
+                <% } else { %>
+                    <li><a href="/logout" onclick="closeMenu()">Logout</a></li>
+                <% } %>
             </ul>
         </nav>
     </header>
@@ -475,11 +524,11 @@
             <div class="hotel-card fade-in">
                 <div class="hotel-content">
                     <div class="image-gallery">
-                        <img src="https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?w=800&auto=format" alt="Mountain Escape Main View" class="main-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mountain Escape Main View" class="main-image">
                         <div class="image-grid">
-                            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&auto=format" alt="Mountain View Suite">
-                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&auto=format" alt="Luxury Cabin">
-                            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=400&auto=format" alt="Spa Area">
+                            <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mountain Lodge Suite">
+                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mountain Hotel Interior">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mountain Resort Spa">
                         </div>
                     </div>
                     
@@ -579,6 +628,26 @@
                 this.src = tempSrc;
             });
         });
+
+        // Hamburger menu functionality
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // Close menu when clicking outside
+        window.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                navLinks.classList.remove('show');
+            }
+        });
+
+        // Close menu when a link is clicked
+        function closeMenu() {
+            navLinks.classList.remove('show');
+        }
     </script>
 </body>
 

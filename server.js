@@ -50,7 +50,7 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/christmas', (req, res) => {
-    res.render('ChristmasOffer');
+    res.render('ChristmasOffer',{user: req.session.user});
 });
 
 app.get('/contact', (req, res) => {
@@ -109,7 +109,7 @@ app.get('/book',checkIfLoggedIn, async (req, res) => {
   const imgURL = matchedHotel ? matchedHotel.image : false;
 
   try {
-    const bookings = await Booking.find().sort({ checkInDate: 1 }); // Fetch all bookings
+    const bookings = await Booking.find().sort({ checkInDate: 1 }); 
 
     res.render('hotelbooking', {
       title: "Book a Room",
@@ -127,8 +127,6 @@ app.get('/book',checkIfLoggedIn, async (req, res) => {
   }
 });
 
-
-// Handle Booking Form Submission & Save to MongoDB
 app.post('/book', async (req, res) => {
     const {
         hotelName,

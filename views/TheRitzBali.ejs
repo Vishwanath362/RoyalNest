@@ -390,10 +390,62 @@
             gap: 1rem;
         }
 
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--midnight);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary-gold);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
             .nav-links {
-                display: none;
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem 0;
+                transition: right 0.3s ease;
+                z-index: 999;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.show {
+                right: 0;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                margin: 1rem 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem;
+                font-size: 1.1rem;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             }
 
             .hero {
@@ -449,15 +501,18 @@
             <div class="logo">
                 <a href="/">RoyalNest</a>
             </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/book">Hotels</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+            <button class="hamburger" id="hamburgerBtn">
+                <i class='bx bx-menu'></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" onclick="closeMenu()">Home</a></li>
+                <li><a href="/book" onclick="closeMenu()">Hotels</a></li>
+                <li><a href="/about" onclick="closeMenu()">About</a></li>
+                <li><a href="/contact" onclick="closeMenu()">Contact</a></li>
                <% if (!user) { %>
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="/login" onclick="closeMenu()">Login</a></li>
                     <% } else { %>
-                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="/logout" onclick="closeMenu()">Logout</a></li>
                         <% } %>
             </ul>
         </nav>
@@ -578,6 +633,62 @@
                 mainImage.src = this.src;
                 this.src = tempSrc;
             });
+        });
+
+        // Hamburger menu functions
+        function toggleMenu() {
+            const navLinks = document.getElementById("navLinks");
+            const hamburger = document.getElementById('hamburgerBtn');
+            
+            if (navLinks && hamburger) {
+                navLinks.classList.toggle("show");
+                
+                const icon = hamburger.querySelector('i');
+                if (navLinks.classList.contains("show")) {
+                    icon.className = 'bx bx-x';
+                } else {
+                    icon.className = 'bx bx-menu';
+                }
+            }
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById("navLinks");
+            const hamburger = document.getElementById('hamburgerBtn');
+            
+            if (navLinks && hamburger) {
+                navLinks.classList.remove("show");
+                hamburger.querySelector('i').className = 'bx bx-menu';
+            }
+        }
+
+        // Initialize hamburger menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburgerBtn');
+            
+            if (hamburger) {
+                hamburger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById("navLinks");
+            const nav = document.querySelector('nav');
+            
+            if (nav && !nav.contains(event.target) && navLinks && navLinks.classList.contains("show")) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
         });
     </script>
 </body>
