@@ -305,6 +305,25 @@
             text-align: center;
         }
 
+        .form-alert {
+            grid-column: 1 / -1;
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+            font-weight: 500;
+        }
+
+        .form-alert.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .form-alert.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
         #hotel-booking-form {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -520,6 +539,14 @@
             <h2>Create Your Perfect Stay</h2>
 
             <form id="hotel-booking-form" action="/book" method="POST">
+                <% if (confirmationMessage) { %>
+                    <p class="form-alert success"><%= confirmationMessage %></p>
+                <% } %>
+
+                <% if (errorMessage) { %>
+                    <p class="form-alert error"><%= errorMessage %></p>
+                <% } %>
+
                 <div class="form-group">
                     <label for="hotel"><i class='bx bx-buildings'></i> Select Hotel:</label>
                     <select id="hotel" name="hotelName" required>
@@ -596,10 +623,8 @@
 
         // Ensure checkout is after checkin
         document.getElementById('check-in').addEventListener('change', function() {
-            const checkInDate = new Date(this.value);
             const checkOutInput = document.getElementById('check-out');
-            checkInDate.setDate(checkInDate.getDate() + 1);
-            checkOutInput.setAttribute('min', checkInDate.toISOString().split('T')[0]);
+            checkOutInput.setAttribute('min', this.value);
         });
 
         // Form submission with loading state
