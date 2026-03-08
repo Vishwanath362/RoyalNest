@@ -45,7 +45,20 @@ const renderTheRitzBali = (req, res) => {
 };
 
 const renderLogin = (req, res) => {
-  res.render('login');
+  const errorType = req.query.error;
+  let errorMessage = '';
+
+  if (errorType === 'nouser') {
+    errorMessage = 'User not found. Please check your username or sign up.';
+  } else if (errorType === 'wrongpassword') {
+    errorMessage = 'Incorrect password. Please try again.';
+  } else if (errorType === 'userexists') {
+    errorMessage = 'Username already exists. Please choose a different username or login.';
+  } else if (errorType === 'servererror') {
+    errorMessage = 'An error occurred. Please try again later.';
+  }
+
+  res.render('login', { error: errorMessage });
 };
 
 const logout = (req, res) => {

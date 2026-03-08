@@ -387,31 +387,6 @@
             errorElement.style.display = 'block';
         }
 
-        // Handle URL parameters for error messages
-        const urlParams = new URLSearchParams(window.location.search);
-        const errorParam = urlParams.get('error');
-        
-        if (errorParam) {
-            let errorMessage = '';
-            switch(errorParam) {
-                case 'nouser':
-                    errorMessage = 'No user found with that username';
-                    break;
-                case 'wrongpass':
-                    errorMessage = 'Incorrect password';
-                    break;
-                case 'userexists':
-                    errorMessage = 'Username already exists';
-                    break;
-                default:
-                    errorMessage = 'An error occurred. Please try again.';
-            }
-            
-            if (errorMessage) {
-                alert(errorMessage);
-            }
-        }
-
         // Initialize form
         document.addEventListener('DOMContentLoaded', function() {
             toggleForm('login');

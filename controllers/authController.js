@@ -13,7 +13,7 @@ const login = async (req, res) => {
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
-      return res.status(401).send('Incorrect password');
+      return res.redirect('/login?error=wrongpassword');
     }
 
     req.session.user = {
@@ -24,7 +24,7 @@ const login = async (req, res) => {
     return res.redirect('/book');
   } catch (err) {
     console.error(err);
-    return res.status(500).send('Internal Server Error');
+    return res.redirect('/login?error=servererror');
   }
 };
 
@@ -35,7 +35,7 @@ const register = async (req, res) => {
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-      return res.status(401).json({ error: 'User already exists' });
+      return res.redirect('/login?error=userexists');
     }
 
     const newUser = new User({ username, password });
@@ -49,7 +49,7 @@ const register = async (req, res) => {
     return res.redirect('/');
   } catch (err) {
     console.error(err);
-    return res.status(500).send('Internal Server Error');
+    return res.redirect('/login?error=servererror');
   }
 };
 
