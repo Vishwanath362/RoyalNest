@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const hotels = require('../models/hotels.json');
 const {
-  hasBookingConflict,
-  createBooking
+  countOverlappingBookings,
+  createBooking,
+  deallocateExpiredBookings
 } = require('../services/bookingService');
 
 // POST /bookings - Add new booking
@@ -26,14 +28,17 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const conflictExists = await hasBookingConflict({
+    await deallocateExpiredBookings();
+    const matchedHotel = hotels.find(h => h.name === hotelName);
+    const capacity = matchedHotel?.rooms?.[roomType] ?? 1;
+    const overlappingCount = await countOverlappingBookings({
       hotelName,
       roomType,
       checkInDate: checkIn,
       checkOutDate: checkOut
     });
 
-    if (conflictExists) {
+    if (overlappingCount >= capacity) {
       return res.status(409).json({
         error: 'Room is already booked for the selected dates.'
       });

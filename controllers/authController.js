@@ -21,7 +21,7 @@ const login = async (req, res) => {
       username: user.username
     };
 
-    return res.redirect('/book');
+    return res.redirect('/');
   } catch (err) {
     console.error(err);
     return res.redirect('/login?error=servererror');

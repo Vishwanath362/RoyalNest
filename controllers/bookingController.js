@@ -2,8 +2,9 @@ const hotels = require('../models/hotels.json');
 const { roomTypes } = require('../constants/booking');
 const {
   getBookingsOrderedByCheckIn,
-  hasBookingConflict,
-  createBooking
+  countOverlappingBookings,
+  createBooking,
+  deallocateExpiredBookings
 } = require('../services/bookingService');
 
 const bookingErrors = {
@@ -13,10 +14,11 @@ const bookingErrors = {
 };
 
 const buildBookingPageData = async (req, { errorMessage = null, confirmationMessage = null } = {}) => {
+  await deallocateExpiredBookings();
   const userId = req.session.user && req.session.user.id;
   const year = new Date().getFullYear();
   const selectedHotel = req.query.hotel;
-  const matchedHotel = hotels.find((hotel) => hotel.link === selectedHotel);
+  const matchedHotel = hotels.find((hotel) => hotel.link === selectedHotel || hotel.name === selectedHotel);
   const imgURL = matchedHotel ? matchedHotel.image : false;
   const bookings = await getBookingsOrderedByCheckIn(userId);
 
@@ -73,14 +75,17 @@ const submitBooking = async (req, res) => {
   }
 
   try {
-    const conflictExists = await hasBookingConflict({
+    await deallocateExpiredBookings();
+    const matchedHotel = hotels.find(h => h.name === hotelName);
+    const capacity = matchedHotel?.rooms?.[roomType] ?? 1;
+    const overlappingCount = await countOverlappingBookings({
       hotelName,
       roomType,
       checkInDate: checkIn,
       checkOutDate: checkOut
     });
 
-    if (conflictExists) {
+    if (overlappingCount >= capacity) {
       return res.redirect(`/book?hotel=${encodeURIComponent(hotelName)}&error=room_unavailable`);
     }
 

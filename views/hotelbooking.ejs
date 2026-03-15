@@ -485,6 +485,51 @@
             0% { transform: translate(-50%, -50%) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
+
+        .availability-hint {
+            color: var(--soft-gray);
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+        }
+
+        .availability-list {
+            margin-top: 0.9rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .availability-item {
+            border: 1px solid var(--platinum);
+            border-radius: 10px;
+            background: #fff;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .availability-item .type {
+            font-size: 0.85rem;
+            color: var(--soft-gray);
+            font-weight: 600;
+        }
+
+        .availability-item .count {
+            margin-top: 0.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .availability-item.available .count {
+            color: #047857;
+        }
+
+        .availability-item.soldout .count {
+            color: #b91c1c;
+        }
+
+        option:disabled {
+            color: #bbb;
+        }
     </style>
 </head>
 
@@ -551,10 +596,9 @@
                     <label for="hotel"><i class='bx bx-buildings'></i> Select Hotel:</label>
                     <select id="hotel" name="hotelName" required>
                         <option value="">Choose your destination</option>
-                        <option value="royal-palace-resort">Royal Palace Resort</option>
-                        <option value="urban-elegance-hotel">Urban Elegance Hotel</option>
-                        <option value="coastal-paradise-villa">Coastal Paradise Villa</option>
-                        <option value="mountain-retreat-lodge">Mountain Retreat Lodge</option>
+                        <% hotels.forEach(hotel => { %>
+                            <option value="<%= hotel.name %>" <%= selectedHotel === hotel.link || selectedHotel === hotel.name ? 'selected' : '' %>><%= hotel.name %></option>
+                        <% }) %>
                     </select>
                 </div>
 
@@ -577,11 +621,12 @@
                     <label for="room-type"><i class='bx bx-bed'></i> Room Type:</label>
                     <select id="room-type" name="roomType" required>
                         <option value="">Select room type</option>
-                        <option value="deluxe">Deluxe Room</option>
-                        <option value="suite">Executive Suite</option>
-                        <option value="presidential">Presidential Suite</option>
-                        <option value="penthouse">Penthouse</option>
+                        <% roomTypes.forEach(rt => { %>
+                            <option value="<%= rt.value %>" data-roomtype="<%= rt.value %>" data-roomname="<%= rt.name %>"><%= rt.name %></option>
+                        <% }) %>
                     </select>
+                    <small id="availability-hint" class="availability-hint" style="display:none;"></small>
+                    <div id="availability-list" class="availability-list" style="display:none;"></div>
                 </div>
 
                 <div class="form-group">
@@ -621,6 +666,12 @@
         document.getElementById('check-in').setAttribute('min', today);
         document.getElementById('check-out').setAttribute('min', today);
 
+        // Scroll to error or success message if present
+        const alertEl = document.querySelector('.form-alert');
+        if (alertEl) {
+            alertEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
         // Ensure checkout is after checkin
         document.getElementById('check-in').addEventListener('change', function() {
             const checkOutInput = document.getElementById('check-out');
@@ -639,6 +690,86 @@
                 submitBtn.innerHTML = '<i class="bx bx-check-circle"></i> Reserve Now';
             }, 2000);
         });
+
+        // Fetch and display room availability when hotel and dates are selected
+        async function fetchAvailability() {
+            const hotel = document.getElementById('hotel').value;
+            const checkIn = document.getElementById('check-in').value;
+            const checkOut = document.getElementById('check-out').value;
+            const hint = document.getElementById('availability-hint');
+            const list = document.getElementById('availability-list');
+            const roomTypeSelect = document.getElementById('room-type');
+
+            if (!hotel || !checkIn || !checkOut) {
+                hint.style.display = 'block';
+                hint.textContent = 'Select hotel and dates to see live room availability.';
+                list.style.display = 'none';
+                roomTypeSelect.value = '';
+                document.querySelectorAll('#room-type option[data-roomtype]').forEach(opt => {
+                    opt.disabled = false;
+                    opt.textContent = opt.dataset.roomname;
+                });
+                return;
+            }
+
+            if (checkOut <= checkIn) {
+                hint.style.display = 'block';
+                hint.textContent = 'Check-out must be after check-in to show availability.';
+                list.style.display = 'none';
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/availability?hotel=${encodeURIComponent(hotel)}&checkIn=${encodeURIComponent(checkIn)}&checkOut=${encodeURIComponent(checkOut)}`);
+                if (!res.ok) {
+                    hint.style.display = 'block';
+                    hint.textContent = 'Unable to load room availability right now.';
+                    list.style.display = 'none';
+                    return;
+                }
+                const data = await res.json();
+                document.querySelectorAll('#room-type option[data-roomtype]').forEach(opt => {
+                    const type = opt.dataset.roomtype;
+                    const available = data[type];
+                    if (available !== undefined) {
+                        const label = available === 0 ? 'Sold out' : `${available} available`;
+                        opt.textContent = `${opt.dataset.roomname} (${label})`;
+                        opt.disabled = available === 0;
+                    }
+                });
+
+                const listItems = document.querySelectorAll('#room-type option[data-roomtype]');
+                list.innerHTML = Array.from(listItems)
+                    .map(opt => {
+                        const available = data[opt.dataset.roomtype] ?? 0;
+                        const stateClass = available > 0 ? 'available' : 'soldout';
+                        const roomText = available === 1 ? '1 room' : `${available} rooms`;
+                        return `<div class="availability-item ${stateClass}"><div class="type">${opt.dataset.roomname}</div><div class="count">${roomText}</div></div>`;
+                    })
+                    .join('');
+                list.style.display = 'grid';
+
+                if (roomTypeSelect.value) {
+                    const selectedOption = roomTypeSelect.querySelector(`option[value="${roomTypeSelect.value}"]`);
+                    if (selectedOption && selectedOption.disabled) {
+                        roomTypeSelect.value = '';
+                    }
+                }
+
+                hint.style.display = 'block';
+                hint.textContent = 'Live availability for the selected hotel and dates.';
+            } catch (e) {
+                hint.style.display = 'block';
+                hint.textContent = 'Unable to load room availability right now.';
+                list.style.display = 'none';
+            }
+        }
+
+        ['hotel', 'check-in', 'check-out'].forEach(id => {
+            document.getElementById(id).addEventListener('change', fetchAvailability);
+        });
+
+        fetchAvailability();
 
         // Smooth animations on scroll
         const observerOptions = {

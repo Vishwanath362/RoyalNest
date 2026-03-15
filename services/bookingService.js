@@ -4,8 +4,8 @@ const getBookingsOrderedByCheckIn = async (userId) => {
   return Booking.find({ userId }).sort({ checkInDate: 1 });
 };
 
-const hasBookingConflict = async ({ hotelName, roomType, checkInDate, checkOutDate }) => {
-  return Booking.exists({
+const countOverlappingBookings = async ({ hotelName, roomType, checkInDate, checkOutDate }) => {
+  return Booking.countDocuments({
     hotelName,
     roomType,
     checkInDate: { $lt: checkOutDate },
@@ -18,8 +18,13 @@ const createBooking = async (bookingData) => {
   return booking.save();
 };
 
+const deallocateExpiredBookings = async () => {
+  return Booking.deleteMany({ checkOutDate: { $lt: new Date() } });
+};
+
 module.exports = {
   getBookingsOrderedByCheckIn,
-  hasBookingConflict,
-  createBooking
+  countOverlappingBookings,
+  createBooking,
+  deallocateExpiredBookings
 };
